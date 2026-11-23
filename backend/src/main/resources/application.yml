@@ -1,8 +1,3 @@
-medview:
-  client:
-    address:
-      url: http://localhost:8082/addresses
-
 spring:
   datasource:
     url: jdbc:h2:file:./data/medview

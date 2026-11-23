@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface FindPatientByIdOutputPort {
 
-    Optional<Patient> find(String id);
+    Optional<Patient> find(Long id);
 }

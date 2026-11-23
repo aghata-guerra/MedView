@@ -14,6 +14,6 @@ public class PatientEntity {
 
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private AddressEntity address;
 }

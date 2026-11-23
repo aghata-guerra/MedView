@@ -1,6 +1,5 @@
 package com.guerra.medview.application.adapters.in.controller.mapper;
 
-
 import com.guerra.medview.application.adapters.in.controller.request.PatientRequest;
 import com.guerra.medview.application.adapters.in.controller.response.PatientResponse;
 import com.guerra.medview.application.core.domain.Patient;
@@ -11,10 +10,7 @@ import org.mapstruct.Mapping;
 public interface PatientMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "address", ignore = true)
-    @Mapping(target = "isValidCpf", ignore = true)
-    Patient toCustomer(PatientRequest patientRequest);
+    Patient toPatient(PatientRequest patientRequest);
 
-    PatientResponse toCustomerResponse(Patient customer);
-
+    PatientResponse toPatientResponse(Patient patient);
 }

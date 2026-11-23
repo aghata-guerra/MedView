@@ -5,9 +5,9 @@ import com.guerra.medview.application.core.domain.Patient;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface CustomerEntityMapper {
+public interface PatientEntityMapper {
 
-    PatientEntity toCustomerEntity(Patient customer);
+    PatientEntity toPatientEntity(Patient patient);
 
-    Patient toCustomer(PatientEntity patientEntity);
+    Patient toPatient(PatientEntity patientEntity);
 }

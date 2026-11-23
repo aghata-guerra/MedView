@@ -8,11 +8,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FindPatientByIdConfig {
 
-
     @Bean
-    public FindPatientByIdUseCase findCustomerByIdUseCase(FindPatientByIdAdapter findPatientByIdAdapter){
-
-        return  new FindPatientByIdUseCase(findPatientByIdAdapter);
-
+    public FindPatientByIdUseCase findPatientByIdUseCase(FindPatientByIdAdapter findPatientByIdAdapter) {
+        return new FindPatientByIdUseCase(findPatientByIdAdapter);
     }
 }

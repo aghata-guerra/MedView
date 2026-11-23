@@ -1,1 +1,6 @@
 .idea/
+
+# H2 (banco em arquivo)
+backend/data/
+*.mv.db
+*.trace.db

@@ -2,29 +2,24 @@ package com.guerra.medview.application.core.domain;
 
 public class Patient {
 
+    private Long id;
+    private String name;
+    private Address address;
+
     public Patient() {
-        this.isValidCpf = false;
     }
 
-    private  String id;
-    private  String name;
-    private  Address address;
-    private  String cpf;
-    private  boolean isValidCpf;
-
-    public Patient(String id, String name, Address address, String cpf, boolean isValidCpf) {
+    public Patient(Long id, String name, Address address) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.cpf = cpf;
-        this.isValidCpf = isValidCpf;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,21 +37,5 @@ public class Patient {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public boolean isValidCpf() {
-        return isValidCpf;
-    }
-
-    public void setValidCpf(boolean validCpf) {
-        isValidCpf = validCpf;
     }
 }

@@ -2,25 +2,25 @@ package com.guerra.medview.application.core.domain;
 
 public class Address {
 
-    private String steet;
+    private String street;
     private String city;
     private String state;
 
     public Address() {
     }
 
-    public Address(String steet, String city, String state) {
-        this.steet = steet;
+    public Address(String street, String city, String state) {
+        this.street = street;
         this.city = city;
         this.state = state;
     }
 
-    public String getSteet() {
-        return steet;
+    public String getStreet() {
+        return street;
     }
 
-    public void setSteet(String steet) {
-        this.steet = steet;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCity() {

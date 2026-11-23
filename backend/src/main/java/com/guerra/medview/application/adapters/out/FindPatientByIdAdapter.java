@@ -1,26 +1,23 @@
 package com.guerra.medview.application.adapters.out;
 
 import com.guerra.medview.application.adapters.out.repository.PatientRepository;
-import com.guerra.medview.application.adapters.out.repository.mapper.CustomerEntityMapper;
+import com.guerra.medview.application.adapters.out.repository.mapper.PatientEntityMapper;
 import com.guerra.medview.application.core.domain.Patient;
 import com.guerra.medview.application.ports.out.FindPatientByIdOutputPort;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class FindPatientByIdAdapter implements FindPatientByIdOutputPort {
 
-    @Autowired
-    private PatientRepository patientRepository;
-
-    @Autowired
-    private CustomerEntityMapper customerEntityMapper;
+    private final PatientRepository patientRepository;
+    private final PatientEntityMapper patientEntityMapper;
 
     @Override
-    public Optional<Patient> find(String id){
-        var customerEntity = patientRepository.findById(id);
-        return customerEntity.map(entity -> customerEntityMapper.toCustomer(entity) );
+    public Optional<Patient> find(Long id) {
+        return patientRepository.findById(id).map(patientEntityMapper::toPatient);
     }
 }
