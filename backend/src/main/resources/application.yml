@@ -1,11 +1,14 @@
-aghata:
-  client:
-    address:
-      url: http://localhost:8082/addresses
-
 spring:
-  data:
-    mongodb:
-      url: mongodb://localhost:27017/hexagonal
-
-
+  datasource:
+    url: jdbc:h2:file:./data/medview
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
