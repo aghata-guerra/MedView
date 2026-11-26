@@ -2,7 +2,7 @@ package com.guerra.medview.application.ports.in;
 
 import com.guerra.medview.application.core.domain.Patient;
 
-public interface InsertPatientInputPort {
+public interface RegisterPatientInputPort {
 
-    void insert(Patient patient);
+    Patient register(Patient patient);
 }

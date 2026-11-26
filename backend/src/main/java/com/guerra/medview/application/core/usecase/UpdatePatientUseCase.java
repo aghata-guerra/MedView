@@ -18,6 +18,7 @@ public class UpdatePatientUseCase implements UpdatePatientInputPort {
 
     @Override
     public void update(Patient patient) {
+        // Fails with PatientNotFoundException when the patient does not exist.
         findPatientByIdInputPort.find(patient.getId());
         updatePatientOutputPort.update(patient);
     }

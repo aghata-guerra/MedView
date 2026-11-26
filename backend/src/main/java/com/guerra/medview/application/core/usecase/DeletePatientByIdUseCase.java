@@ -17,6 +17,7 @@ public class DeletePatientByIdUseCase implements DeletePatientByIdInputPort {
 
     @Override
     public void delete(Long id) {
+        // Fails with PatientNotFoundException when the patient does not exist.
         findPatientByIdInputPort.find(id);
         deletePatientByIdOutputPort.delete(id);
     }
