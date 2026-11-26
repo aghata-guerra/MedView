@@ -19,3 +19,10 @@ spring:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+medview:
+  security:
+    jwt:
+      # Override with the JWT_SECRET environment variable outside development (at least 32 characters).
+      secret: ${JWT_SECRET:medview-dev-secret-change-me-in-production-0123456789}
+      expiration-minutes: 60
