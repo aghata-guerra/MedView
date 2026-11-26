@@ -1,7 +1,7 @@
 # MedView API (backend)
 
 REST API that supports clinical triage of patients in the diabetes and hypertension risk groups.
-Built with Java 21, Spring Boot, JPA and H2, following **hexagonal architecture** (ports and adapters).
+Built with Java 21, Spring Boot, JPA and H2, following the **MVC pattern** in layers.
 
 ## Run
 
@@ -19,24 +19,23 @@ cd backend
 ./mvnw test
 ```
 
-## Architecture
+## Architecture (MVC)
 
 ```
-com.guerra.medview.application
-├── core                      business rules, no Spring inside
-│   ├── domain                Patient, Address
-│   ├── exception             PatientNotFoundException
-│   └── usecase               RegisterPatient, FindPatientById, UpdatePatient, DeletePatientById
-├── ports
-│   ├── in                    what the application offers (implemented by the use cases)
-│   └── out                   what the application needs (implemented by the adapters)
-├── adapters
-│   ├── in/controller         REST: controller, request/response DTOs, mapper, exception handler
-│   └── out                   persistence: adapters, JPA entities, repository, mapper
-└── config                    wires use cases to adapters; OpenAPI info
+com.guerra.medview
+├── controller     C - receives the HTTP request, validates the body, calls the service, returns the status code
+├── service        business rules, transactions
+├── repository     data access (Spring Data JPA)
+├── model          M - JPA entities: Patient, Address
+├── dto            V - the JSON the client sends and receives (records)
+├── exception      domain exceptions and the global handler that turns them into HTTP responses
+└── config         OpenAPI (Swagger) configuration
 ```
 
-Dependency rule: `adapters` and `config` depend on `ports` and `core`; `core` depends on nothing outside itself.
+In a REST API the **View** is the JSON representation of the data, built here by the DTOs
+(`PatientRequest`, `PatientResponse`, ...). The Angular front end renders it for the user.
+
+Request flow: `Controller -> Service -> Repository -> Model (database)`, and back as a DTO.
 
 ## Endpoints
 
