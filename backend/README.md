@@ -1,7 +1,7 @@
 # MedView API (backend)
 
 REST API that supports clinical triage of patients in the diabetes and hypertension risk groups.
-Built with Java 21, Spring Boot, JPA and H2, following **hexagonal architecture** (ports and adapters).
+Built with Java 21, Spring Boot, JPA and H2, following the **MVC pattern** in layers.
 
 ## Run
 
@@ -19,33 +19,46 @@ cd backend
 ./mvnw test
 ```
 
-## Architecture
+## Architecture (MVC)
 
 ```
-com.guerra.medview.application
-├── core                      business rules, no Spring inside
-│   ├── domain                Patient, Address
-│   ├── exception             PatientNotFoundException
-│   └── usecase               RegisterPatient, FindPatientById, UpdatePatient, DeletePatientById
-├── ports
-│   ├── in                    what the application offers (implemented by the use cases)
-│   └── out                   what the application needs (implemented by the adapters)
-├── adapters
-│   ├── in/controller         REST: controller, request/response DTOs, mapper, exception handler
-│   └── out                   persistence: adapters, JPA entities, repository, mapper
-└── config                    wires use cases to adapters; OpenAPI info
+com.guerra.medview
+├── controller     C - receives the HTTP request, validates the body, calls the service, returns the status code
+├── service        business rules, transactions
+├── repository     data access (Spring Data JPA)
+├── model          M - JPA entities: Patient, Address, Doctor
+├── security       JWT issuing (JwtService)
+├── dto            V - the JSON the client sends and receives (records)
+├── exception      domain exceptions and the global handler that turns them into HTTP responses
+└── config         Spring Security (stateless JWT) and OpenAPI (Swagger) configuration
 ```
 
-Dependency rule: `adapters` and `config` depend on `ports` and `core`; `core` depends on nothing outside itself.
+In a REST API the **View** is the JSON representation of the data, built here by the DTOs
+(`PatientRequest`, `PatientResponse`, ...). The Angular front end renders it for the user.
+
+Request flow: `Controller -> Service -> Repository -> Model (database)`, and back as a DTO.
+
+## Authentication
+
+Every endpoint except `/api/v1/auth/**`, Swagger and the H2 console requires `Authorization: Bearer <token>`.
+Doctors register (CPF validated, password stored as a BCrypt hash) and log in to get a JWT (HS256).
+In Swagger UI, call `POST /api/v1/auth/login`, copy the token and press **Authorize**.
+
+The signing secret comes from the `JWT_SECRET` environment variable (at least 32 characters).
+`application.yml` has a development default; set your own outside development.
 
 ## Endpoints
 
 | Method | Path                    | Success | Errors   |
 |--------|-------------------------|---------|----------|
+| POST   | `/api/v1/auth/register` | 201 (public) | 400, 409 |
+| POST   | `/api/v1/auth/login`    | 200 + token (public) | 400, 401 |
 | POST   | `/api/v1/patients`      | 201 + `Location` header and body | 400 |
 | GET    | `/api/v1/patients/{id}` | 200     | 404      |
 | PUT    | `/api/v1/patients/{id}` | 204     | 400, 404 |
 | DELETE | `/api/v1/patients/{id}` | 204     | 404      |
+
+The patient endpoints also answer **401** when the token is missing or invalid.
 
 Example body:
 
